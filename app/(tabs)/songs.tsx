@@ -1,10 +1,10 @@
 import {  StyleSheet,  View, Text } from 'react-native';
 
 
-export default function ExploreScreen() {
+export default function SongScreen() {
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Explore screen</Text>
+      <Text style={styles.text}>Song screen</Text>
     </View>
   );
 }

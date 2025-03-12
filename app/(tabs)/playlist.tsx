@@ -1,10 +1,10 @@
 import {  StyleSheet,  View, Text } from 'react-native';
 
 
-export default function HomeScreen() {
+export default function PlaylistScreen() {
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Home screen</Text>
+      <Text style={styles.text}>Playlist screen</Text>
     </View>
   );
 }
