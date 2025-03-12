@@ -25,7 +25,7 @@ export const Colors = {
   },
 };
 
-export colors = {
+export const MyColors = {
   primary: '#fc3c44',
   background: '#000',
   text: '#fff',
