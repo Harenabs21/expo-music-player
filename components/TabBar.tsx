@@ -63,14 +63,16 @@ export default function TabBar({ state, descriptors, navigation }: BottomTabBarP
               style={TabBarStyle.tabBarItem}
             >
           
-            {
+              {
               TabIcons[route.name as keyof typeof TabIcons]({
                   color: isFocused ? MyColors.primary : MyColors.textMuted,
                   })
               }
-              <Text style={{ color: isFocused ? MyColors.primary : MyColors.textMuted }}>
-                  {typeof label === 'function' ? label({ focused: isFocused, color: isFocused ? MyColors.primary : MyColors.textMuted, position:'below-icon', children: '' }) : label}
-              </Text>
+              {isFocused && (
+                <Text style={{ color: isFocused ? MyColors.primary : MyColors.textMuted }}>
+                    {typeof label === 'function' ? label({ focused: isFocused, color: isFocused ? MyColors.primary : MyColors.textMuted, position:'below-icon', children: '' }) : label}
+                </Text>
+              )}
             </PlatformPressable>
           );
         })
