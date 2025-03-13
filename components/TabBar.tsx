@@ -3,21 +3,13 @@ import { useLinkBuilder } from '@react-navigation/native';
 import { Text, PlatformPressable } from '@react-navigation/elements';
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import { TabBarStyle } from '@/styles/tab-bar.style';
-import FontAwesome from '@expo/vector-icons/FontAwesome';
-import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import { TabButtonIcons } from '@/constants/route-icon';
 import { MyColors } from '@/constants/Colors';
 
 
 export default function TabBar({ state, descriptors, navigation }: BottomTabBarProps) {
     
   const { buildHref } = useLinkBuilder();
-
-  const TabIcons = {
-    index: (props: any) => <FontAwesome name='home' size={24} {...props}/>,
-    favorites: (props: any) => <FontAwesome name='heart' size={24} {...props}/>,
-    songs: (props: any) => <MaterialIcons name='music-note' size={24} {...props}/>,
-    playlist: (props: any) => <MaterialIcons name='playlist-play' size={24} {...props}/>,
-  }
 
   return (
     <View style={TabBarStyle.tabBarContainer}>
@@ -64,7 +56,7 @@ export default function TabBar({ state, descriptors, navigation }: BottomTabBarP
             >
           
               {
-              TabIcons[route.name as keyof typeof TabIcons]({
+              TabButtonIcons[route.name as keyof typeof TabButtonIcons]({
                   color: isFocused ? MyColors.primary : MyColors.textMuted,
                   })
               }
