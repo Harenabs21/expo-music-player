@@ -1,9 +1,10 @@
-import { StyleSheet, View, Text } from 'react-native';
+import EmptyPlaylist from '@/components/playlist/EmptyPlaylist';
+import { StyleSheet, View } from 'react-native';
 
 export default function PlaylistScreen() {
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Playlist screen</Text>
+      <EmptyPlaylist />
     </View>
   );
 }
@@ -13,6 +14,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: '#fefffe',
   },
   text: {
     fontSize: 24,
