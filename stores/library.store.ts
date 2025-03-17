@@ -42,6 +42,15 @@ export const useLibraryStore = create<LibraryState>()((set) => ({
           playlist: [],
         }));
 
+        formattedTracks.sort((a, b) => {
+          const titleA = (a.title ?? '').toUpperCase();
+          const titleB = (b.title ?? '').toUpperCase();
+
+          if (titleA < titleB) return -1;
+          if (titleA > titleB) return 1;
+          return 0;
+        });
+
         allTracks = [...allTracks, ...formattedTracks];
         after = endCursor;
         nextPage = hasNextPage;
