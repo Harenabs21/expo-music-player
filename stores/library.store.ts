@@ -19,19 +19,22 @@ export const useLibraryStore = create<LibraryState>()((set) => ({
       if (!granted) return;
 
       let allTracks: TrackWithPlaylist[] = [];
-      let nextPage = true;
-      let after: string | undefined = undefined;
-      const batchSize = 100;
+      let hasNextPage = true;
+      let endCursor: any;
 
-      while (nextPage) {
-        const { assets, endCursor, hasNextPage } = await MusicLibrary.getAssetsAsync({
-          first: batchSize,
-          after,
+      while (hasNextPage) {
+        const {
+          assets,
+          endCursor: nextCursor,
+          hasNextPage: nextPage,
+        } = await MusicLibrary.getAssetsAsync({
+          first: 20,
+          after: endCursor,
         });
 
-        const mediaTypeFilteredTracks = assets.filter((asset) => asset.mediaType === 'audio');
+        const filteredAssets = assets.filter((asset) => asset.mediaType === 'audio');
 
-        const formattedTracks: TrackWithPlaylist[] = mediaTypeFilteredTracks.map((asset) => ({
+        const formattedTracks: TrackWithPlaylist[] = filteredAssets.map((asset) => ({
           id: asset.id,
           url: asset.uri,
           title: asset.title ?? 'Unknown title',
@@ -42,19 +45,17 @@ export const useLibraryStore = create<LibraryState>()((set) => ({
           playlist: [],
         }));
 
-        formattedTracks.sort((a, b) => {
-          const titleA = (a.title ?? '').toUpperCase();
-          const titleB = (b.title ?? '').toUpperCase();
-
-          if (titleA < titleB) return -1;
-          if (titleA > titleB) return 1;
-          return 0;
-        });
-
         allTracks = [...allTracks, ...formattedTracks];
-        after = endCursor;
-        nextPage = hasNextPage;
+        endCursor = nextCursor;
+        hasNextPage = nextPage;
       }
+
+      // Sort by title alphabetically
+      allTracks.sort((a, b) => {
+        const titleA = (a.title ?? '').toUpperCase();
+        const titleB = (b.title ?? '').toUpperCase();
+        return titleA.localeCompare(titleB);
+      });
 
       set((state) => {
         if (JSON.stringify(state.tracks) !== JSON.stringify(allTracks)) {
