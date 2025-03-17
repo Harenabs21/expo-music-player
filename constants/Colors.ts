@@ -31,4 +31,6 @@ export const MyColors = {
   text: '#fff',
   textMuted: '#9ca3af',
   icon: '#f5f5f5',
+  maximumTrackTintColor: 'rgba(255,255,255,0.4)',
+  minimumTrackTintColor: 'rgba(255,255,255,0.6)',
 };
