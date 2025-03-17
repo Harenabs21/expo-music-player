@@ -30,4 +30,5 @@ export const MyColors = {
   background: '#000',
   text: '#fff',
   textMuted: '#9ca3af',
+  icon: '#f5f5f5',
 };
