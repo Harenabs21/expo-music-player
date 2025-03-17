@@ -6,7 +6,7 @@ import { FloatingPlayer } from '@/components/FloatingPlayer';
 
 export default function TabLayout() {
   return (
-    <View>
+    <View style={{ flex: 1 }}>
       <Tabs
         tabBar={(props) => <TabBar {...props} />}
         screenOptions={{
