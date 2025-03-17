@@ -27,8 +27,8 @@ export const Colors = {
 
 export const MyColors = {
   primary: '#fc3c44',
-  background: '#000',
-  text: '#fff',
+  background: '#fefffe',
+  text: '#0000',
   textMuted: '#9ca3af',
   icon: '#f5f5f5',
   maximumTrackTintColor: 'rgba(255,255,255,0.4)',
