@@ -1,74 +1,34 @@
-import React, { useEffect, useState } from 'react';
-import { View, FlatList, StyleSheet, Text, Button, Alert } from 'react-native';
-import * as MediaLibrary from 'expo-media-library';
-import MusicCard from '@/components/MusicCard';
+import { TracksList } from '@/components/TracksList';
+import { trackTitleFilter } from '@/helpers/filter';
+import { generateTracksListId } from '@/helpers/format';
+import { useNavigationSearch } from '@/hooks/useNavigationSearch';
+import { useTracks } from '@/stores/library.store';
+import { defaultStyles } from '@/styles/default-style.style';
+import { useMemo } from 'react';
+import { ScrollView, View } from 'react-native';
 
-export default function SongScreen() {
-  const [songs, setSongs] = useState<MediaLibrary.Asset[]>([]);
-  const [permissionGranted, setPermissionGranted] = useState(false);
+const SongsScreen = () => {
+  const search = useNavigationSearch({
+    searchBarOptions: {
+      placeholder: 'Find in songs',
+    },
+  });
 
-  const requestPermissions = async () => {
-    const { status } = await MediaLibrary.requestPermissionsAsync();
-    setPermissionGranted(status === 'granted');
-    if (status !== 'granted') {
-      Alert.alert('Permission Denied', 'We need access to your media files to list songs.');
-    }
-  };
+  const tracks = useTracks();
 
-  const loadSongs = async () => {
-    try {
-      const media = await MediaLibrary.getAssetsAsync({
-        mediaType: MediaLibrary.MediaType.audio,
-        first: 50,
-      });
-      const mp3Files = media.assets.filter((file) => file.filename.endsWith('.mp3'));
-      setSongs(mp3Files);
-    } catch (error) {
-      console.error('Error loading songs:', error);
-    }
-  };
+  const filteredTracks = useMemo(() => {
+    if (!search) return tracks;
 
-  useEffect(() => {
-    requestPermissions();
-  }, []);
-
-  useEffect(() => {
-    if (permissionGranted) {
-      loadSongs();
-    }
-  }, [permissionGranted]);
-
-  const renderSongItem = ({ item }: { item: MediaLibrary.Asset }) => (
-    <MusicCard
-      title={item.filename}
-      artist="Unknown Artist" // Vous pouvez intégrer un service pour récupérer cette information
-      duration={item.duration}
-    />
-  );
+    return tracks.filter(trackTitleFilter(search));
+  }, [search, tracks]);
 
   return (
-    <View style={styles.container}>
-      {permissionGranted ? (
-        <>
-          <Button title="Refresh Songs" onPress={loadSongs} />
-          <FlatList
-            data={songs}
-            keyExtractor={(item) => item.id}
-            renderItem={renderSongItem}
-            ListEmptyComponent={<Text>No MP3 files found.</Text>}
-          />
-        </>
-      ) : (
-        <Text>Requesting permissions...</Text>
-      )}
+    <View style={defaultStyles.container}>
+      <ScrollView contentInsetAdjustmentBehavior="automatic" style={{ paddingHorizontal: 24 }}>
+        <TracksList id={generateTracksListId('songs', search)} tracks={filteredTracks} scrollEnabled={false} />
+      </ScrollView>
     </View>
   );
-}
+};
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 16,
-    backgroundColor: '#fefffe',
-  },
-});
+export default SongsScreen;
