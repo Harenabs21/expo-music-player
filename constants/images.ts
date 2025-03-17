@@ -7,6 +7,4 @@ export const emptyFavoriteListImageUri = Image.resolveAssetSource(
   require('@/assets/images/illustrations/undraw_happy-music.png')
 ).uri;
 
-export const unknownTrackImageUri = Image.resolveAssetSource(
-  require('@/assets/images/illustrations/unknown_track.png')
-);
+export const unknownTrackImageUri = Image.resolveAssetSource(require('@/assets/images/unknown_track.png'));
