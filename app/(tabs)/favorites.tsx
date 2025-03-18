@@ -1,30 +1,40 @@
-import ButtonWithIcon from '@/components/buttons/ButtonWithIcon';
 import EmptyFavoriteList from '@/components/favorites/EmptyFavoriteList';
-import { buttonWithIconStyle } from '@/styles/button-icon.style';
-import { Alert, StyleSheet, View } from 'react-native';
+import { TracksList } from '@/components/TracksList';
+import { trackTitleFilter } from '@/helpers/filter';
+import { generateTracksListId } from '@/helpers/format';
+import { useNavigationSearch } from '@/hooks/useNavigationSearch';
+import { useFavorites } from '@/stores/library.store';
+import { defaultStyles } from '@/styles/default-style.style';
+import { useMemo } from 'react';
+import { ScrollView, View } from 'react-native';
 
-export default function FavoriteScreen() {
-  const handlePlayButton = () => {
-    Alert.alert('you cliked the play button');
-  };
+const FavoritesScreen = () => {
+  const search = useNavigationSearch({
+    searchBarOptions: {
+      placeholder: 'Find in songs',
+    },
+  });
+
+  const favoritesTracks = useFavorites().favorites;
+
+  const filteredFavoritesTracks = useMemo(() => {
+    if (!search) return favoritesTracks;
+
+    return favoritesTracks.filter(trackTitleFilter(search));
+  }, [search, favoritesTracks]);
+
   return (
-    <View style={styles.container}>
-      <EmptyFavoriteList />
-      <ButtonWithIcon onPress={handlePlayButton} iconName="play" color="#fefffe" style={buttonWithIconStyle.button} />
+    <View style={defaultStyles.container}>
+      <ScrollView style={{ paddingHorizontal: 24 }} contentInsetAdjustmentBehavior="automatic">
+        <TracksList
+          id={generateTracksListId('favorites', search)}
+          scrollEnabled={false}
+          tracks={filteredFavoritesTracks}
+          ListEmptyComponent={<EmptyFavoriteList />}
+        />
+      </ScrollView>
     </View>
   );
-}
+};
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#fefffe',
-  },
-  text: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 16,
-  },
-});
+export default FavoritesScreen;
