@@ -1,4 +1,4 @@
-import { View } from 'react-native-reanimated/lib/typescript/Animated';
+import { View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export const DismissPlayerSymbol = () => {
@@ -21,7 +21,7 @@ export const DismissPlayerSymbol = () => {
           width: 50,
           height: 8,
           borderRadius: 8,
-          backgroundColor: '#fff',
+          backgroundColor: '#000',
           opacity: 0.7,
         }}
       />

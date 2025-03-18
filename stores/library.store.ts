@@ -128,7 +128,7 @@ export const useArtists = () =>
   });
 
 export const usePlaylists = () => {
-  const unknownImageUri = '@/assets/images/illustrations/unknown_track.png';
+  const unknownImageUri = '@/assets/images/unknown_track.png';
   const playlists = useLibraryStore((state) => {
     return state.tracks.reduce((acc, track) => {
       track.playlist?.forEach((playlistName) => {
