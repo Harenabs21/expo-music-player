@@ -1,13 +1,10 @@
 import { StyleSheet, View } from 'react-native';
-import FastImage from 'react-native-fast-image';
+import { Image } from 'expo-image';
 
 export const ArtworkDisplay = ({ artwork }: { artwork?: string }) => {
   return (
     <View style={styles.artworkContainer}>
-      <FastImage
-        source={{ uri: artwork ?? require('@/assets/images/unknown_track.png'), priority: FastImage.priority.high }}
-        style={styles.artwork}
-      />
+      <Image source={{ uri: artwork ?? require('@/assets/images/unknown_track.png') }} style={styles.artwork} />
     </View>
   );
 };

@@ -3,7 +3,7 @@ import { useQueue } from '@/stores/queue.store';
 import { utilsStyles } from '@/styles/default-style.style';
 import { useRef } from 'react';
 import { FlatList, FlatListProps, Text, View } from 'react-native';
-import FastImage from 'react-native-fast-image';
+import { Image } from 'expo-image';
 import TrackPlayer, { Track } from 'react-native-track-player';
 import { QueueControls } from './QueueControls';
 
@@ -57,10 +57,7 @@ export const TracksList = ({ id, tracks, hideQueueControls = false, ...flatlistP
       <View>
         <Text style={utilsStyles.emptyContentText}>No songs found</Text>
 
-        <FastImage
-          source={{ uri: require('@/assets/images/unknown_track.png'), priority: FastImage.priority.normal }}
-          style={utilsStyles.emptyContentImage}
-        />
+        <Image source={{ uri: require('@/assets/images/unknown_track.png') }} style={utilsStyles.emptyContentImage} />
       </View>
     );
   };

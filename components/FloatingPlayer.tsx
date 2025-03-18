@@ -3,9 +3,9 @@ import { useLastActiveTrack } from '@/hooks/useLastActiveTrack';
 import { defaultStyles } from '@/styles/default-style.style';
 import { useRouter } from 'expo-router';
 import { StyleSheet, TouchableOpacity, View, ViewProps } from 'react-native';
-import FastImage from 'react-native-fast-image';
 import { useActiveTrack } from 'react-native-track-player';
 import { MovingText } from './MovingText';
+import { Image } from 'expo-image';
 
 export const FloatingPlayer = ({ style }: ViewProps) => {
   const router = useRouter();
@@ -24,7 +24,7 @@ export const FloatingPlayer = ({ style }: ViewProps) => {
   return (
     <TouchableOpacity onPress={handlePress} activeOpacity={0.9} style={[styles.container, style]}>
       <>
-        <FastImage
+        <Image
           source={{
             uri: displayedTrack.artwork ?? require('@/assets/images/unknown_track.png'),
           }}
